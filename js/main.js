@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initProjectModals();
   initResumeModal();
   initCertificateModal();
-  initDubaiClock();
+  initIndiaClock();
   initThemeToggle();
   initNavScroll();
   initClipboardActions();
@@ -25,11 +25,11 @@ function initTypewriter() {
   if (!target) return;
 
   const roles = [
-    'AI Solutions Architecture',
-    'Full-Stack Web & SaaS Platforms',
-    'Generative AI & LLM Systems',
-    'High-Speed APIs & Cloud Systems',
-    'Technical Advisory & Delivery'
+    'React & Next.js Web Applications',
+    'Node.js, PHP & Python Backends',
+    'AI Agents & LLM Workflow Automation',
+    'REST APIs & SaaS Platform Engineering',
+    'Existing App Maintenance & Support'
   ];
 
   let roleIdx = 0;
@@ -93,29 +93,78 @@ function initArchitectureTabs() {
 }
 
 /* ==========================================================================
-   3. Project Filter System
+   3. Project Filter & Show More/Less System
    ========================================================================== */
 function initProjectFilters() {
   const filterBtns = document.querySelectorAll('.filter-btn');
   const projectCards = document.querySelectorAll('.project-card');
+  const toggleWrap = document.querySelector('.projects-toggle-wrap');
+  const toggleBtn = document.getElementById('toggle-projects-btn');
+  const toggleText = document.getElementById('toggle-projects-text');
+  const toggleIcon = document.getElementById('toggle-projects-icon');
+
+  let currentFilter = 'all';
+  let isExpanded = false;
+
+  function applyVisibility() {
+    projectCards.forEach((card, idx) => {
+      const categories = card.getAttribute('data-category') || '';
+      const matches = currentFilter === 'all' || categories.includes(currentFilter);
+
+      if (!matches) {
+        card.style.display = 'none';
+      } else {
+        if (currentFilter === 'all') {
+          // In 'all' view: show top 6, or all 9 if expanded
+          if (idx < 6 || isExpanded) {
+            card.style.display = 'flex';
+          } else {
+            card.style.display = 'none';
+          }
+        } else {
+          // When a specific category is filtered, show all matching cards
+          card.style.display = 'flex';
+        }
+      }
+    });
+
+    if (toggleWrap) {
+      if (currentFilter === 'all') {
+        toggleWrap.style.display = 'flex';
+        if (toggleText) toggleText.textContent = isExpanded ? 'Show Less' : 'Show All Projects (11)';
+        if (toggleIcon) {
+          toggleIcon.className = isExpanded ? 'fa-solid fa-chevron-up' : 'fa-solid fa-chevron-down';
+        }
+      } else {
+        toggleWrap.style.display = 'none';
+      }
+    }
+  }
 
   filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
-      const filter = btn.getAttribute('data-filter');
-
+      currentFilter = btn.getAttribute('data-filter') || 'all';
       filterBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-
-      projectCards.forEach(card => {
-        const categories = card.getAttribute('data-category') || '';
-        if (filter === 'all' || categories.includes(filter)) {
-          card.style.display = 'flex';
-        } else {
-          card.style.display = 'none';
-        }
-      });
+      applyVisibility();
     });
   });
+
+  if (toggleBtn) {
+    toggleBtn.addEventListener('click', () => {
+      isExpanded = !isExpanded;
+      applyVisibility();
+      if (!isExpanded) {
+        const projectsSection = document.getElementById('projects');
+        if (projectsSection) {
+          projectsSection.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+    });
+  }
+
+  // Initial execution to display default 6 projects
+  applyVisibility();
 }
 
 /* ==========================================================================
@@ -181,6 +230,46 @@ const projectDetailsData = {
     ],
     liveUrl: 'https://zayrro.com/'
   },
+  vinstar: {
+    title: 'Vinstar IDV — Automated Identity Verification & Video KYC',
+    role: 'Lead Full-Stack & AI Systems Architect | Eyvy Solutions',
+    techStack: ['Next.js', 'React', 'Python', 'FastAPI', 'Computer Vision (OCR)', 'Biometric Liveness', 'WebRTC', 'PostgreSQL', 'Docker'],
+    imgSrc: 'assets/images/vinstar-preview.png',
+    headline: 'AI-Powered Identity Verification & Fraud Prevention Under 1.2-Second SLA',
+    summary: 'Engineered an enterprise-grade automated identity verification (IDV) and Video KYC platform designed for rapid customer onboarding, real-time document forensics, anti-spoofing biometrics, and global AML compliance.',
+    architectureDetails: [
+      'Built automated document verification microservices using Python and FastAPI parsing 14,000+ government ID templates across 248 countries with MRZ checksum validation and forgery detection.',
+      'Integrated ISO 30107-3 Level 2 certified 3D biometric liveness detection and selfie-to-ID facial matching achieving 99.8% precision in under 1.2 seconds.',
+      'Developed end-to-end WebRTC video KYC pipeline enabling encrypted, low-latency agent-assisted and autonomous customer onboarding sessions with automated geolocation checks.',
+      'Integrated real-time AML screening against 1,800+ global sanction lists, PEP databases, and adverse media registries with webhook notification infrastructure.'
+    ],
+    impactMetrics: [
+      '<1.2-second average automated verification SLA across global identity documents.',
+      '99.8% biometric face-match accuracy with strict ISO 30107-3 Level 2 anti-spoofing defense.',
+      'Over 98.6% first-time onboarding pass rate with streamlined responsive mobile-first UI.'
+    ],
+    liveUrl: 'https://vinstar.in/'
+  },
+  'zayrro-chat': {
+    title: 'Zayrro AI Chat — Conversational Travel Assistant & Agent Orchestration',
+    role: 'Founder & AI Agent Architect | Eyvy Solutions',
+    techStack: ['React.js', 'Node.js', 'Python', 'FastAPI', 'OpenAI GPT-4o', 'AI Agent Orchestration', 'Function Calling', 'WebSockets / SSE'],
+    imgSrc: 'assets/images/zayrro-chat-preview.png',
+    headline: 'Autonomous AI Travel Planning Agent with Real-Time GDS Flight & Hotel Booking Integration',
+    summary: 'Architected an interactive conversational AI travel assistant that turns open-ended natural language travel ideas into comprehensive, bookable multi-day itineraries, flight schedules, and hotel reservations.',
+    architectureDetails: [
+      'Orchestrated multi-step AI agent workflows using OpenAI models and specialized tool-calling pipelines to interpret user intent, extract travel parameters, and query supplier APIs.',
+      'Connected conversational agent directly to Zayrro travel engine (Amadeus GDS, hotel inventories) to fetch live pricing, availability, and alternative routes without leaving chat.',
+      'Developed high-performance streaming backend with Python FastAPI and Server-Sent Events (SSE) / WebSockets delivering instant interactive UI cards and token streaming.',
+      'Built interactive client widgets in React for instant seat selection, flight comparison cards, day-by-day itinerary timelines, and one-click checkout actions.'
+    ],
+    impactMetrics: [
+      'Reduces end-to-end trip planning and booking discovery from 2+ hours to under 3 minutes.',
+      'Sub-500ms token streaming latency with real-time UI widget generation.',
+      'Unified search, route recommendation, and itinerary generation into a single conversational session.'
+    ],
+    liveUrl: 'https://chat.eyvy.in/'
+  },
   strategyworks: {
     title: 'StrategyWorks — Enterprise Strategy & Portfolio Management',
     role: 'Solutions Architect & Full-Stack Lead',
@@ -203,10 +292,10 @@ const projectDetailsData = {
   lazim: {
     title: 'Lazim — Owners Association & Community ERP Platform',
     role: 'Machine Learning Engineer | Ilaj Services',
-    techStack: ['Python (FastAPI)', 'AWS EC2', 'Docker', 'MLflow', 'TensorFlow', 'Hugging Face', 'Groq', 'SparkNLP', 'GPU OCR'],
+    techStack: ['Python (FastAPI)', 'AWS EC2', 'Docker', 'TensorFlow', 'Hugging Face', 'Groq', 'SparkNLP', 'GPU OCR'],
     imgSrc: 'assets/images/lazim-preview.png',
     headline: 'GPU-Accelerated OCR & AI Automation for Real Estate Accounting and Community Management',
-    summary: 'Led the development of AI-driven accounting, automated invoice processing, and property management ERP workflows for residential and commercial communities across Dubai and the UAE.',
+    summary: 'Led the development of automated invoice processing, GPU-based OCR pipelines, and property management ERP workflows for residential and commercial real estate communities.',
     architectureDetails: [
       'Built and optimized a GPU-based OCR pipeline utilizing Hugging Face Transformers and SparkNLP, achieving 95% automated document extraction accuracy on complex utility bills and vendor invoices.',
       'Implemented real-time ERP accounting automation: Invoices → OCR Data Extraction → Validation Rules → Auto-Ledger Posting with human-in-the-loop review queues.',
@@ -215,7 +304,7 @@ const projectDetailsData = {
     impactMetrics: [
       '95% document extraction accuracy on scanned, non-standard real estate invoices.',
       'Reduced manual accounting data-entry effort by 15% across property management teams.',
-      'Supervised ML model lifecycle tracking and versioning using MLflow.'
+      'Engineered robust microservice data pipelines processing hundreds of real estate documents weekly.'
     ],
     liveUrl: 'https://www.lazim.ae/'
   },
@@ -278,10 +367,10 @@ const projectDetailsData = {
   realmtalks: {
     title: 'RealmTalks — Real-Time Social Media Platform',
     role: 'Software Developer | Ecloud Solutions',
-    techStack: ['Node.js', '.NET', 'AWS', 'PostgreSQL', 'Docker', 'RabbitMQ', 'MediaSoup WebRTC', 'ArgoDB'],
+    techStack: ['Node.js', 'Express.js', 'AWS', 'PostgreSQL', 'Docker', 'RabbitMQ', 'MediaSoup WebRTC', 'ArgoDB'],
     imgSrc: 'assets/images/zayrro-preview.png',
     headline: 'Event-Driven Microservices Architecture with Group WebRTC Video & AI Content Feeds',
-    summary: 'Built an Instagram-scale social networking platform featuring short-form video reels, real-time messaging, group WebRTC video conferencing, and event-driven microservices.',
+    summary: 'Built a scalable social networking platform featuring short-form video reels, real-time messaging, group WebRTC video conferencing, and event-driven microservices.',
     architectureDetails: [
       'Designed microservices mesh for Posts, Reels, Stories, Auth, Chat, and In-App Wallet communicating over RabbitMQ event brokers.',
       'Engineered low-latency group video conferencing and live broadcasting using MediaSoup and WebRTC, supporting up to 10 concurrent video publishers per 8-core instance.',
@@ -498,26 +587,26 @@ function initCertificateModal() {
 }
 
 /* ==========================================================================
-   6. Live Dubai Clock (GST - UTC+4)
+   6. Live India Clock (IST - UTC+5:30)
    ========================================================================== */
-function initDubaiClock() {
-  const clockEl = document.getElementById('dubai-live-time');
+function initIndiaClock() {
+  const clockEl = document.getElementById('india-live-time');
   if (!clockEl) return;
 
   function updateClock() {
     try {
       const now = new Date();
       const options = {
-        timeZone: 'Asia/Dubai',
+        timeZone: 'Asia/Kolkata',
         hour: '2-digit',
         minute: '2-digit',
         second: '2-digit',
         hour12: true
       };
       const timeString = new Intl.DateTimeFormat('en-US', options).format(now);
-      clockEl.textContent = `${timeString} GST (Dubai, UAE)`;
+      clockEl.textContent = `${timeString} IST (Jaipur, India)`;
     } catch (e) {
-      clockEl.textContent = 'Dubai, UAE (UTC+4)';
+      clockEl.textContent = 'Jaipur, India (IST · UTC+5:30)';
     }
   }
 
