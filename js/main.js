@@ -291,7 +291,7 @@ const projectDetailsData = {
   },
   lazim: {
     title: 'Lazim — Owners Association & Community ERP Platform',
-    role: 'Machine Learning Engineer | Ilaj Services',
+    role: 'Senior Software Engineer | Ilaj Services',
     techStack: ['Python (FastAPI)', 'AWS EC2', 'Docker', 'TensorFlow', 'Hugging Face', 'Groq', 'SparkNLP', 'GPU OCR'],
     imgSrc: 'assets/images/lazim-preview.png',
     headline: 'GPU-Accelerated OCR & AI Automation for Real Estate Accounting and Community Management',
