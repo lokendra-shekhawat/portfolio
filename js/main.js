@@ -212,7 +212,7 @@ const projectDetailsData = {
   },
   zayrro: {
     title: 'Zayrro — Multi-Supplier AI Travel Booking Platform',
-    role: 'Founder & Principal Architect | Eyvy Solutions',
+    role: 'Software Consultant & Principal Architect | Eyvy Solutions',
     techStack: ['PERN (PostgreSQL, Express, React, Node.js)', 'AWS', 'OpenAI', 'Amadeus GDS', 'Akbar Travels API', 'Benzy API', 'Rayna Tours API', 'Stripe'],
     imgSrc: 'assets/images/zayrro-preview.png',
     headline: 'High-Concurrency Travel Booking Aggregator with AI Route & Fare Optimization',
@@ -252,7 +252,7 @@ const projectDetailsData = {
   },
   'zayrro-chat': {
     title: 'Zayrro AI Chat — Conversational Travel Assistant & Agent Orchestration',
-    role: 'Founder & AI Agent Architect | Eyvy Solutions',
+    role: 'Software Consultant & AI Agent Architect | Eyvy Solutions',
     techStack: ['React.js', 'Node.js', 'Python', 'FastAPI', 'OpenAI GPT-4o', 'AI Agent Orchestration', 'Function Calling', 'WebSockets / SSE'],
     imgSrc: 'assets/images/zayrro-chat-preview.png',
     headline: 'Autonomous AI Travel Planning Agent with Real-Time GDS Flight & Hotel Booking Integration',
